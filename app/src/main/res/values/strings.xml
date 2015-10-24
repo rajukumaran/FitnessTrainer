@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">FitnessTrainer</string>
+    <string name="title_activity_trainer_association">TrainerAssociationActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="title_activity_exercise_input">ExerciseInputActivity</string>
+
+</resources>
