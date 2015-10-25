@@ -6,4 +6,7 @@ package com.toetracker.fitnesstrainer;
 public class TrainerGlobal {
 
     public static String TraineeName ="";
+    public static final String SHAREDPREFFILE = "temp";
+    public static final String USERIDPREF = "uid";
+    public static final String TOKENPREF = "tkn";
 }
