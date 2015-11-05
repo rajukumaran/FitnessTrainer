@@ -25,7 +25,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go"
+        android:text="Add"
         android:id="@+id/btnAssociateUser"
         android:layout_above="@+id/listView"
         android:layout_alignRight="@+id/editText"

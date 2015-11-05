@@ -9,6 +9,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".TrainerAssociationActivity"
+            android:exported="true"
             android:label="@string/title_activity_trainer_association" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +25,8 @@
         <activity
             android:name=".ExerciseInputActivity"
             android:label="@string/title_activity_exercise_input" >
+        </activity>
+        <activity android:name=".AddExercise" >
         </activity>
     </application>
 

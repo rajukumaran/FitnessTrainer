@@ -6,19 +6,25 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.toetracker.fitnesstrainer.ExerciseInputActivity">
 
-    <EditText
-        android:layout_width="match_parent"
+    <AutoCompleteTextView
+        android:id="@+id/autoComplete"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txtExerciseId"
-        android:layout_above="@+id/editText3"
+        android:ems="10"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/btnAddExercise"
+        android:layout_toStartOf="@+id/btnAddExercise"
+        android:imeOptions="actionDone">
+        <requestFocus />
+    </AutoCompleteTextView>
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
+        android:text="Submit"
         android:id="@+id/btnExceriseSubmit"
         android:layout_marginBottom="41dp"
         android:layout_alignParentBottom="true"
@@ -27,25 +33,41 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText3"
-        android:layout_above="@+id/editText4"
+        android:id="@+id/txtUnit1"
+        android:inputType="number"
+        android:layout_below="@+id/autoComplete"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="47dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtUnit2"
+        android:editable="false"
+        android:inputType="number"
+        android:layout_below="@+id/txtUnit1"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText4"
-        android:layout_above="@+id/editText5"
+        android:id="@+id/txtUnit3"
+        android:inputType="number"
+        android:layout_below="@+id/txtUnit2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <EditText
-        android:layout_width="match_parent"
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText5"
-        android:layout_above="@+id/btnExceriseSubmit"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="75dp" />
+        android:text="Add Exercise"
+        android:id="@+id/btnAddExercise"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/autoComplete" />
+
 </RelativeLayout>

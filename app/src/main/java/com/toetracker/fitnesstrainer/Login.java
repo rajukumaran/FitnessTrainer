@@ -19,7 +19,7 @@ import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 
 import java.net.MalformedURLException;
 
-public class Login extends AppCompatActivity {
+public class Login extends AzureBaseActivity {
 
     EditText txtEmail;
     EditText txtPassword;
@@ -102,6 +102,9 @@ public class Login extends AppCompatActivity {
                     editor.putString(USERIDPREF, UserId);
                     editor.putString(TOKENPREF, AuthString);
                     editor.commit();
+                    mClient .withFilter(new ProgressFilterNew())
+                            .withFilter(new RefreshTokenCacheFilterNew());
+                    TrainerGlobal.setMobileServiceClient(mClient);
                     if(UserType.toUpperCase().equals("TRAINER")) {
                         Intent loggedInIntent = new Intent(getApplicationContext(), TrainerAssociationActivity.class);
                         startActivity(loggedInIntent);
