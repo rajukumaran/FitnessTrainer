@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -41,39 +42,94 @@ import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperations.val;
 
 public class TrainerAssociationActivity extends AzureBaseActivity {
-    TextView txtView;
-    EditText edtText;
-    Button btnSubmit;
-    String AuthString;
-    String UserId;
-    //MobileServiceClient mClient;
-    public boolean bAuthenticating = false;
-    public final Object mAuthenticationLock = new Object();
     public static final String SHAREDPREFFILE = "temp";
     public static final String USERIDPREF = "uid";
     public static final String TOKENPREF = "tkn";
+    public final Object mAuthenticationLock = new Object();
+    //MobileServiceClient mClient;
+    public boolean bAuthenticating = false;
+    TextView txtView;
+    EditText edtText;
+    Button btnNewTrainee,btnAssociateUser;
+    String AuthString;
+    String UserId;
+    EditText txtTraineeID;
+    MobileServiceTable<TrainerAssociation> mToDoTable;
     MobileServiceTable<TrainerAssociation> taObj;
     TrainerAssociationAdapter TA;
+    LinearLayout linlaHeaderProgress;
+     View.OnClickListener btnAssociateUser_Click = new View.OnClickListener(){
+         @Override
+         public void onClick(View view) {
+             // Create a new item
+             mToDoTable = mClient.getTable(TrainerAssociation.class);
+             final TrainerAssociation item = new TrainerAssociation();
+            item.TraineeID = txtTraineeID.getText().toString();
+
+             // Insert the new item
+             AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
+                 @Override
+                 protected Void doInBackground(Void... params) {
+                     try {
+                         final TrainerAssociation entity = mToDoTable.insert(item).get();
+
+                         runOnUiThread(new Runnable() {
+                             @Override
+                             public void run() {
+                                     TA.add(entity);
+                             }
+                         });
+                     } catch (final Exception e) {
+
+                     }
+                     return null;
+                 }
+             };
+
+             runAsyncTask(task);
+
+         }
+     };
+    View.OnClickListener loginClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+           // authenticate();
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_association);
+        btnNewTrainee = (Button)findViewById(R.id.btnAddUser);
+        btnAssociateUser = (Button)findViewById(R.id.btnAssociateUser);
+        btnAssociateUser.setOnClickListener(btnAssociateUser_Click);
+        linlaHeaderProgress = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
+        txtTraineeID = (EditText)findViewById(R.id.txtTraineeID);
+        btnNewTrainee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent loggedInIntent = new Intent(getApplicationContext(), AddTrainee.class);
+                startActivity(loggedInIntent);
+            }
+        });
         //taObj = new ArrayList<TrainerAssociation>();
-        try {
-            mClient = new MobileServiceClient(
-                    "https://toetrackertrainermob.azure-mobile.net/",
-                    "mfCRUZnFolnIKhTUjOqAeXYyfPZftG32",this
-            )
-                    .withFilter(new ProgressFilterNew())
-                    .withFilter(new RefreshTokenCacheFilterNew());
-        }catch (MalformedURLException err)
-        {
-
-        }
-
+//        try {
+//            mClient = new MobileServiceClient(
+//                    "https://toetrackertrainermob.azure-mobile.net/",
+//                    "mfCRUZnFolnIKhTUjOqAeXYyfPZftG32",this
+//            )
+//                    .withFilter(new ProgressFilterNew())
+//                    .withFilter(new RefreshTokenCacheFilterNew());
+//        }catch (MalformedURLException err)
+//        {
+//
+//        }
+        linlaHeaderProgress.setVisibility(View.VISIBLE);
         try {
             taObj = mClient.getTable(TrainerAssociation.class);
+
             TA = new TrainerAssociationAdapter(this, R.layout.trainer_association_layout, taObj);
             ListView lstView = (ListView) findViewById(R.id.listView);
             lstView.setAdapter(TA);
@@ -111,6 +167,7 @@ public class TrainerAssociationActivity extends AzureBaseActivity {
                             for (TrainerAssociation item : results) {
                                 TA.add(item);
                             }
+                            linlaHeaderProgress.setVisibility(View.GONE);
                         }
                     });
                 } catch (final Exception e){
@@ -140,13 +197,6 @@ public class TrainerAssociationActivity extends AzureBaseActivity {
         }
     }
 
-    View.OnClickListener loginClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-           // authenticate();
-
-        }
-    };
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_trainer_association, menu);

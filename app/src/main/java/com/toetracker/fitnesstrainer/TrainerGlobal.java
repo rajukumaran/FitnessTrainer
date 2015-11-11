@@ -2,6 +2,8 @@ package com.toetracker.fitnesstrainer;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.os.AsyncTask;
+import android.os.Build;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilter;
@@ -42,6 +44,14 @@ public class TrainerGlobal {
         }
         return  mClient;
 
+    }
+
+    public static AsyncTask<Void, Void, Void> runAsyncTask(AsyncTask<Void, Void, Void> task) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            return task.execute();
+        }
     }
 
 }
