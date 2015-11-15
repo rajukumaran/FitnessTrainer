@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.google.android.gms.drive.query.SortOrder;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -38,41 +39,33 @@ import com.microsoft.windowsazure.mobileservices.http.ServiceFilter;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterRequest;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
+import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
+
+import org.apache.http.impl.conn.LoggingSessionOutputBuffer;
 
 import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperations.val;
 
 public class TrainerAssociationActivity extends AzureBaseActivity {
-    public static final String SHAREDPREFFILE = "temp";
-    public static final String USERIDPREF = "uid";
-    public static final String TOKENPREF = "tkn";
-    public final Object mAuthenticationLock = new Object();
-    //MobileServiceClient mClient;
-    public boolean bAuthenticating = false;
-    TextView txtView;
-    EditText edtText;
+
     Button btnNewTrainee,btnAssociateUser;
-    String AuthString;
-    String UserId;
     EditText txtTraineeID;
     MobileServiceTable<TrainerAssociation> mToDoTable;
     MobileServiceTable<TrainerAssociation> taObj;
     TrainerAssociationAdapter TA;
     LinearLayout linlaHeaderProgress;
-     View.OnClickListener btnAssociateUser_Click = new View.OnClickListener(){
+    View.OnClickListener btnAssociateUser_Click = new View.OnClickListener(){
          @Override
          public void onClick(View view) {
              // Create a new item
              mToDoTable = mClient.getTable(TrainerAssociation.class);
              final TrainerAssociation item = new TrainerAssociation();
             item.TraineeID = txtTraineeID.getText().toString();
-
              // Insert the new item
              AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
                  @Override
                  protected Void doInBackground(Void... params) {
                      try {
                          final TrainerAssociation entity = mToDoTable.insert(item).get();
-
                          runOnUiThread(new Runnable() {
                              @Override
                              public void run() {
@@ -85,9 +78,7 @@ public class TrainerAssociationActivity extends AzureBaseActivity {
                      return null;
                  }
              };
-
              runAsyncTask(task);
-
          }
      };
     View.OnClickListener loginClickListener = new View.OnClickListener() {
@@ -107,6 +98,7 @@ public class TrainerAssociationActivity extends AzureBaseActivity {
         btnAssociateUser.setOnClickListener(btnAssociateUser_Click);
         linlaHeaderProgress = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
         txtTraineeID = (EditText)findViewById(R.id.txtTraineeID);
+        TrainerGlobal.SetText(txtTraineeID,"Trainee ID");
         btnNewTrainee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,31 +106,18 @@ public class TrainerAssociationActivity extends AzureBaseActivity {
                 startActivity(loggedInIntent);
             }
         });
-        //taObj = new ArrayList<TrainerAssociation>();
-//        try {
-//            mClient = new MobileServiceClient(
-//                    "https://toetrackertrainermob.azure-mobile.net/",
-//                    "mfCRUZnFolnIKhTUjOqAeXYyfPZftG32",this
-//            )
-//                    .withFilter(new ProgressFilterNew())
-//                    .withFilter(new RefreshTokenCacheFilterNew());
-//        }catch (MalformedURLException err)
-//        {
-//
-//        }
+
         linlaHeaderProgress.setVisibility(View.VISIBLE);
         try {
             taObj = mClient.getTable(TrainerAssociation.class);
-
-            TA = new TrainerAssociationAdapter(this, R.layout.trainer_association_layout, taObj);
+            TA = new TrainerAssociationAdapter(this, R.layout.trainer_association_layout);
             ListView lstView = (ListView) findViewById(R.id.listView);
             lstView.setAdapter(TA);
 
             refreshItemsFromTable();
         }catch (Exception err)
         {
-            Integer i =10;
-            i=11;
+
 
         }
     }
@@ -153,16 +132,13 @@ public class TrainerAssociationActivity extends AzureBaseActivity {
             protected Void doInBackground(Void... params) {
 
                 try {
-                    final List<TrainerAssociation> results = taObj.execute().get();
-                    Integer i=10;
-                    i=11;
-                    //Offline Sync
-                    //final List<ToDoItem> results = refreshItemsFromMobileServiceTableSyncTable();
+                    final List<TrainerAssociation> results = taObj.orderBy("TraineeID",QueryOrder.Ascending).execute().get();
 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             TA.clear();
+
 
                             for (TrainerAssociation item : results) {
                                 TA.add(item);
@@ -172,9 +148,6 @@ public class TrainerAssociationActivity extends AzureBaseActivity {
                     });
                 } catch (final Exception e){
 
-                    Integer i=10;
-                    i=11;
-                    //createAndShowDialogFromTask(e, "Error");
                 }
 
                 return null;
@@ -217,13 +190,7 @@ public class TrainerAssociationActivity extends AzureBaseActivity {
         }
         if (id == R.id.logout)
         {
-            SharedPreferences prefs = getSharedPreferences(SHAREDPREFFILE, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(USERIDPREF, "");
-            editor.putString(TOKENPREF, "");
-            editor.commit();
-            Intent loggedInIntent = new Intent(getApplicationContext(), Login.class);
-            startActivity(loggedInIntent);
+            TrainerGlobal.Logout(this);
         }
         return super.onOptionsItemSelected(item);
     }

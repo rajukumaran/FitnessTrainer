@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
 /**
@@ -30,7 +31,7 @@ public class TrainerAssociationAdapter extends ArrayAdapter<TrainerAssociation> 
      */
     int mLayoutResourceId;
 
-    public TrainerAssociationAdapter(Context context, int layoutResourceId, MobileServiceTable<TrainerAssociation> TA) {
+    public TrainerAssociationAdapter(Context context, int layoutResourceId) {
         super(context, layoutResourceId);
 
         mContext = context;

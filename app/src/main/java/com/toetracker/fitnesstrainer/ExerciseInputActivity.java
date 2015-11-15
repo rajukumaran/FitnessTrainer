@@ -17,21 +17,23 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
+import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
+
 public class ExerciseInputActivity extends AzureBaseActivity {
 
     Button btnExerciseSubmit,btnAddExercise;
     EditText txtExerciseId;
     EditText txtUnit1,txtUnit2,txtUnit3;
     String Unit1,Unit2,Unit3;
-    String ID;
+    String ID, Name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_input);
 
-        btnExerciseSubmit = (Button)findViewById(R.id.btnExceriseSubmit);
-        btnAddExercise= (Button)findViewById(R.id.btnAddExercise);
+       btnAddExercise = (Button)findViewById(R.id.btnAddExercise);
         btnAddExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,8 +41,11 @@ public class ExerciseInputActivity extends AzureBaseActivity {
                 startActivity(loggedInIntent);
             }
         });
+        btnExerciseSubmit = (Button)findViewById(R.id.btnExceriseSubmit);
+        btnExerciseSubmit.setOnClickListener(btnExerciseSubmit_Click);
+
         //txtExerciseId = (EditText)findViewById(R.id.txtExerciseId);
-        btnExerciseSubmit.setOnClickListener(loginClickListener);
+       // btnExerciseSubmit.setOnClickListener(loginClickListener);
         txtUnit1= (EditText)findViewById(R.id.txtUnit1);
         txtUnit2= (EditText)findViewById(R.id.txtUnit2);
         txtUnit3= (EditText)findViewById(R.id.txtUnit3);
@@ -48,81 +53,75 @@ public class ExerciseInputActivity extends AzureBaseActivity {
         TrainerGlobal.setAssetManager(am);
         //AssetManager manager = getAssets();
         AutoCompleteTextView acTextView = (AutoCompleteTextView) findViewById(R.id.autoComplete);
-        acTextView.setAdapter(new SuggestionAdapter(this,acTextView.getText().toString()));
+        acTextView.setAdapter(new SuggestionAdapter(this, acTextView.getText().toString()));
         acTextView.setOnItemClickListener(AutocompleteItemClickListner);
-        txtUnit1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b) {
-                    if (txtUnit1.getText().toString().equals(Unit1))
-                        txtUnit1.setText("");
-                } else {
-                    if (txtUnit1.getText().toString().equals(""))
-                        txtUnit1.setText(Unit1);
-                }
-            }
-        });
-        txtUnit2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(b) {
-                    if (txtUnit2.getText().toString().equals(Unit2))
-                        txtUnit2.setText("");
-                }
-                else{
-                    if(txtUnit2.getText().toString().equals(""))
-                        txtUnit2.setText(Unit2);
-                }
-            }
-        });
-        txtUnit3.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(b) {
-                    if (txtUnit3.getText().toString().equals(Unit3))
-                        txtUnit3.setText("");
-                }
-                else{
-                    if(txtUnit3.getText().toString().equals(""))
-                        txtUnit3.setText(Unit3);
-                }
-            }
-        });
+        acTextView.setHint("Type Exercise Name");
         //ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.select_dialog_item,strValues);
         //acTextView.setThreshold(1);
         //acTextView.setAdapter(adapter);
 
     }
 
+    View.OnClickListener btnExerciseSubmit_Click = new View.OnClickListener(){
+        @Override
+        public void onClick(View view) {
+            ExerciseInput er = new ExerciseInput();
+            er.ExerciseName= Name;
+            er.ExerciseDescID= ID;
+            er.User=TrainerGlobal.TraineeName;
+            er.Unit1= txtUnit1.getText().toString();
+            er.Unit2= txtUnit2.getText().toString();
+            er.Unit3= txtUnit3.getText().toString();
+            if(er.Unit3.equals(""))
+                er.Unit3="0";
+
+            mClient.invokeApi("EnterExerciseActivity", er , String.class, new ApiOperationCallback<String>() {
+
+                @Override
+                public void onCompleted(String result,
+                                        Exception exception, ServiceFilterResponse response) {
+
+                    if (exception == null) {
+                        txtUnit1.setHint(Unit1);
+                        txtUnit2.setHint(Unit2);
+                        txtUnit3.setHint(Unit3);
+                    }
+                }
+
+            });
+        }
+    };
+
     AdapterView.OnItemClickListener AutocompleteItemClickListner = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             adapterView.getAdapter().getItem(i);
             ID=TrainerGlobal.GetSelectedExercise.getId();
+            Name= TrainerGlobal.GetSelectedExercise.getName();
              Unit1 = TrainerGlobal.GetSelectedExercise.getUnit1();
              Unit2 = TrainerGlobal.GetSelectedExercise.getUnit2();
              Unit3 = TrainerGlobal.GetSelectedExercise.getUnit3();
             if(Unit1.equals("")) {
                 txtUnit1.setEnabled(false);
-                txtUnit1.setText("");
+                txtUnit1.setHint("");
             }
                 else {
                 txtUnit1.setEnabled(true);
-                txtUnit1.setText(Unit1);
+                txtUnit1.setHint(Unit1);
             }
             if(Unit2.equals("")) {
                 txtUnit2.setEnabled(false);
-                txtUnit2.setText("");
+                txtUnit2.setHint("");
             }else {
-                txtUnit2.setText(Unit2);
                 txtUnit2.setEnabled(true);
+                txtUnit2.setHint(Unit2);
             }
                 if(Unit3.equals("")) {
                     txtUnit3.setEnabled(false);
                     txtUnit3.setText("");
                 }else {
-                    txtUnit3.setText(Unit3);
                     txtUnit3.setEnabled(true);
+                    txtUnit3.setHint( Unit3);
                 }
             //ID= ((ExerciseData)((ListView) adapterView).getAdapter().getItem(i)).ExerciseID;
         }

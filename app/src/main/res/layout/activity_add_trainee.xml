@@ -58,6 +58,9 @@
         android:id="@+id/btnAddTrainee"
         android:layout_below="@+id/txtEmail"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp" />
+        android:layout_marginTop="54dp"
+        android:background="@drawable/button_radient"
+        android:textColor="#ffffff"
+        android:textStyle="bold"/>
 
 </RelativeLayout>

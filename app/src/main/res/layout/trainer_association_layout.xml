@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:background="#FF7A7A7A"
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <TextView
         android:layout_width="match_parent"
@@ -9,5 +11,10 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/textView"
-        android:clickable="true" />
+        android:clickable="true"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:layout_weight="0.06"
+        android:gravity="center_vertical"
+        android:height="50dp"/>
 </LinearLayout>

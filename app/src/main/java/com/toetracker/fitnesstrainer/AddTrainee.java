@@ -35,6 +35,12 @@ public class AddTrainee extends AzureBaseActivity {
         txtLastName = (EditText)findViewById(R.id.txtLastName);
         txtPhone= (EditText)findViewById(R.id.txtPhone);
         txtEmail= (EditText)findViewById(R.id.txtEmail);
+        txtEmail.setHint("Email Address");
+        txtFirstName.setHint("First Name");
+        txtLastName.setHint("Last Name");
+        txtUserName.setHint("UserName");
+        txtPhone.setHint("Phone");
+
     }
 
     View.OnClickListener btnAddTrainee_Click = new View.OnClickListener(){

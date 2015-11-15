@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -34,11 +35,14 @@ public class AddExercise extends AzureBaseActivity {
     ArrayAdapter<String> adapter;
     ArrayAdapter<String> adapterUnits;
     LinearLayout linlaHeaderProgress;
+    Button btnSubmitNewExercise;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_exercise);
         linlaHeaderProgress = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
+        btnSubmitNewExercise = (Button)findViewById(R.id.btnSubmitNewExercise);
+        btnSubmitNewExercise.setOnClickListener(btnSubmitNewExercise_click);
         txtNewExercise = (EditText)findViewById(R.id.txtNewExercise);
         spnBodyArea= (Spinner)findViewById(R.id.spnBodyArea);
         spnMuscle = (Spinner)findViewById(R.id.spnMuscle);
@@ -50,13 +54,11 @@ public class AddExercise extends AzureBaseActivity {
         spnUnit1.setAdapter(adapterUnits);
         spnUnit2.setAdapter(adapterUnits);
         spnUnit3.setAdapter(adapterUnits);
-
+        TrainerGlobal.SetText(txtNewExercise,"Exercise Name");
         items = new ArrayList<String>();
         MuscleLists = new ArrayList<String>();
         items.add("Select Body Type");
         MuscleLists.add("Select Muscle Type");
-//        items.add("val;ue");
-//        items.add("asdf");
         adapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, items);
         spnBodyArea.setAdapter(adapter);
 
@@ -85,9 +87,7 @@ public class AddExercise extends AzureBaseActivity {
                     while (keys.hasNext()) {
                         String key = (String) keys.next();
                         items.add(key);
-//                        String value =  jsonResponse.get(key).toString();
-
-                    }
+                   }
                     linlaHeaderProgress.setVisibility(View.GONE);
                 } catch (Exception er) {
 
@@ -115,24 +115,20 @@ public class AddExercise extends AzureBaseActivity {
 
                 }catch (Exception e)
                 {}
-//                Toast.makeText(getBaseContext(),
-//                        "You have selected item : " + spnBodyArea[index],
-//                        Toast.LENGTH_SHORT).show();
-            }
+          }
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
 
-//        spnBodyArea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                int k =i;
-//            }
-//        });
-
-
-
     }
+
+
+    View.OnClickListener btnSubmitNewExercise_click = new View.OnClickListener(){
+        @Override
+        public void onClick(View view) {
+
+        }
+    };
 }

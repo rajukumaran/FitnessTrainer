@@ -20,16 +20,6 @@
         <requestFocus />
     </AutoCompleteTextView>
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Submit"
-        android:id="@+id/btnExceriseSubmit"
-        android:layout_marginBottom="41dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,5 +59,16 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@+id/autoComplete" />
+
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter"
+        android:id="@+id/btnExceriseSubmit"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/btnAddExercise"
+        android:layout_toStartOf="@+id/btnAddExercise" />
 
 </RelativeLayout>

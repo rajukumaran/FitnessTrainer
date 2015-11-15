@@ -32,8 +32,13 @@ public class Login extends AzureBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        //tableLayout.SetBackgroundResource(Resource.Drawable.cool_gradient);
         txtEmail = (EditText)findViewById(R.id.txtUserName);
         txtPassword=(EditText)findViewById(R.id.txtPassword);
+        txtEmail.setHint("User Name");
+        txtPassword.setHint("Password");
+        TrainerGlobal.SetText(txtEmail, "User Name");
+        TrainerGlobal.SetText(txtPassword, "Password");
         btnSubmit = (Button)findViewById(R.id.btnSubmit);
         btnSubmit.setOnClickListener(loginClickListener);
         try {
