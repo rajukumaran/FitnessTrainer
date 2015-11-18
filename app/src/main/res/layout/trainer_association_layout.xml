@@ -12,8 +12,7 @@
         android:text="Large Text"
         android:id="@+id/textView"
         android:clickable="true"
-        android:textColor="#ffffff"
-        android:textStyle="bold"
+        android:textColor="#eeeeee"
         android:layout_weight="0.06"
         android:gravity="center_vertical"
         android:height="50dp"/>

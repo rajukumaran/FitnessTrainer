@@ -27,6 +27,9 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.microsoft.windowsazure.mobileservices.*;
 
 import java.net.MalformedURLException;
@@ -42,6 +45,10 @@ import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 
 import org.apache.http.impl.conn.LoggingSessionOutputBuffer;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.google.gson.JsonObject;
 
 import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperations.val;
 
@@ -93,6 +100,7 @@ public class TrainerAssociationActivity extends AzureBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_association);
+
         btnNewTrainee = (Button)findViewById(R.id.btnAddUser);
         btnAssociateUser = (Button)findViewById(R.id.btnAssociateUser);
         btnAssociateUser.setOnClickListener(btnAssociateUser_Click);
@@ -110,6 +118,7 @@ public class TrainerAssociationActivity extends AzureBaseActivity {
         linlaHeaderProgress.setVisibility(View.VISIBLE);
         try {
             taObj = mClient.getTable(TrainerAssociation.class);
+            //MobileServiceList<TrainerAssociation> taObj1 = taObj.orderBy("TraineeID",QueryOrder.Ascending).execute().get();
             TA = new TrainerAssociationAdapter(this, R.layout.trainer_association_layout);
             ListView lstView = (ListView) findViewById(R.id.listView);
             lstView.setAdapter(TA);
@@ -117,7 +126,8 @@ public class TrainerAssociationActivity extends AzureBaseActivity {
             refreshItemsFromTable();
         }catch (Exception err)
         {
-
+            Integer i =10;
+            i=11;
 
         }
     }
@@ -131,24 +141,74 @@ public class TrainerAssociationActivity extends AzureBaseActivity {
             @Override
             protected Void doInBackground(Void... params) {
 
-                try {
-                    final List<TrainerAssociation> results = taObj.orderBy("TraineeID",QueryOrder.Ascending).execute().get();
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            TA.clear();
+                mClient.invokeApi("GetTrainerAssociation", String.class, new ApiOperationCallback<String>() {
 
 
-                            for (TrainerAssociation item : results) {
-                                TA.add(item);
+                    @Override
+                    public void onCompleted(String result,
+                                            Exception exception, ServiceFilterResponse response) {
+
+                        if (exception == null) {
+                            try {
+                                //JSONObject jsonResponse = new JSONObject(result);
+                                JSONArray jarray = new JSONArray(result);
+                               // JSONArray jarray = jsonResponse.getJSONArray("");
+                                //JSONObject jsonResponse = new JSONObject(line);
+
+
+//                                for(JsonElement jr : result)
+//                                {
+//
+//                                }
+                               for(int i=0; i< jarray.length();i++)
+                               {
+                                   JSONObject js = jarray.getJSONObject(i);
+                                   String FirstName = js.getString("FirstName");
+                                   String LastName = js.getString("LastName");
+                                   String UserName = js.getString("Username");
+                                   String FullName = LastName +", " + FirstName + "(" + UserName +")";
+                                   TrainerAssociation TAs = new TrainerAssociation();
+                                   TAs.TraineeID=FullName;
+                                   TA.add(TAs);
+
+                               }
+
+                                linlaHeaderProgress.setVisibility(View.GONE);
+
+                                //.getJSONArray("results");
+                                //String AuthString = result.getAsJsonPrimitive("mobileServiceAuthenticationToken").getAsString();
+                            }catch(Exception err)
+                            {
+                                int i =0;
+                                i=1;
+
                             }
-                            linlaHeaderProgress.setVisibility(View.GONE);
-                        }
-                    });
-                } catch (final Exception e){
 
-                }
+                        }
+                    }
+
+                });
+
+
+
+//                try {
+//                    final List<TrainerAssociation> results = taObj.orderBy("TraineeID",QueryOrder.Ascending).execute().get();
+//
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            TA.clear();
+//
+//
+//                            for (TrainerAssociation item : results) {
+//                                TA.add(item);
+//                            }
+//                            linlaHeaderProgress.setVisibility(View.GONE);
+//                        }
+//                    });
+//                } catch (final Exception e){
+//
+//                }
 
                 return null;
             }

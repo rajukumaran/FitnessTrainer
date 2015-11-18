@@ -32,7 +32,8 @@ public class ExerciseInputActivity extends AzureBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_input);
-
+        TextView txtView = (TextView)findViewById(R.id.txtVwTrainee);
+        txtView.setText(TrainerGlobal.TraineeName);
        btnAddExercise = (Button)findViewById(R.id.btnAddExercise);
         btnAddExercise.setOnClickListener(new View.OnClickListener() {
             @Override

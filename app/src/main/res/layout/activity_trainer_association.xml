@@ -42,10 +42,13 @@
         android:text="  Add New Trainee  "
         android:id="@+id/btnAddUser"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:background="@drawable/button_radient"
         android:textColor="#ffffff"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/listView"
+        android:layout_alignEnd="@+id/listView" />
     <LinearLayout
         android:id="@+id/linlaHeaderProgress"
         android:layout_width="fill_parent"

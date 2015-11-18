@@ -4,6 +4,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="#FF7A7A7A"
     tools:context="com.toetracker.fitnesstrainer.ExerciseInputActivity">
 
     <AutoCompleteTextView
@@ -11,12 +12,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:imeOptions="actionDone"
+        android:layout_marginTop="51dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_toLeftOf="@+id/btnAddExercise"
         android:layout_toStartOf="@+id/btnAddExercise"
-        android:imeOptions="actionDone">
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff">
         <requestFocus />
     </AutoCompleteTextView>
 
@@ -28,7 +32,9 @@
         android:layout_below="@+id/autoComplete"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="47dp" />
+        android:layout_marginTop="47dp"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -38,7 +44,9 @@
         android:inputType="number"
         android:layout_below="@+id/txtUnit1"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff" />
 
     <EditText
         android:layout_width="match_parent"
@@ -47,28 +55,50 @@
         android:inputType="number"
         android:layout_below="@+id/txtUnit2"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Exercise"
+        android:text="  Add Exercise  "
         android:id="@+id/btnAddExercise"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@+id/autoComplete" />
+        android:layout_alignBottom="@+id/autoComplete"
+        android:background="@drawable/button_radient"
+        android:layout_alignTop="@+id/autoComplete" />
 
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter"
+        android:text="  Enter  "
         android:id="@+id/btnExceriseSubmit"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/btnAddExercise"
-        android:layout_toStartOf="@+id/btnAddExercise" />
+        android:background="@drawable/button_radient"
+        android:layout_below="@+id/txtUnit3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="44dp"
+        android:layout_alignRight="@+id/txtUnit3"
+        android:layout_alignEnd="@+id/txtUnit3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/txtVwTrainee"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:layout_above="@+id/btnAddExercise" />
 
 </RelativeLayout>
