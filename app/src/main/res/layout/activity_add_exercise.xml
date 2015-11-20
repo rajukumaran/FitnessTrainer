@@ -16,56 +16,79 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"
+        />
 
     <Spinner
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:id="@+id/spnBodyArea"
         android:layout_below="@+id/txtNewExercise"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/txtNewExercise"
-        android:layout_alignEnd="@+id/txtNewExercise" />
+        android:layout_alignEnd="@+id/txtNewExercise"
+        android:textColor="#ffffff"
+        android:background="@drawable/cell_shape"
+        android:popupBackground="#777777"
+        android:layout_marginTop="10dp"/>
 
     <Spinner
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:id="@+id/spnMuscle"
         android:layout_below="@+id/spnBodyArea"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/spnUnit1"
         android:layout_alignEnd="@+id/spnUnit1"
+        android:textColor="#ffffff"
+        android:background="@drawable/cell_shape"
+        android:popupBackground="#777777"
+        android:layout_marginTop="10dp"
         />
 
     <Spinner
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:id="@+id/spnUnit1"
         android:layout_below="@+id/spnMuscle"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textColor="#ffffff"
+        android:background="@drawable/cell_shape"
+        android:popupBackground="#777777"
+        android:layout_marginTop="10dp"/>
 
     <Spinner
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:id="@+id/spnUnit2"
         android:layout_below="@+id/spnUnit1"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textColor="#ffffff"
+        android:background="@drawable/cell_shape"
+        android:popupBackground="#777777"
+        android:layout_marginTop="10dp"/>
 
     <Spinner
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:id="@+id/spnUnit3"
         android:layout_below="@+id/spnUnit2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/spnUnit2"
-        android:layout_alignEnd="@+id/spnUnit2" />
+        android:layout_alignEnd="@+id/spnUnit2"
+        android:textColor="#ffffff"
+        android:background="@drawable/cell_shape"
+        android:popupBackground="#777777"
+        android:layout_marginTop="10dp"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -73,8 +96,14 @@
         android:layout_height="wrap_content"
         android:text="Submit"
         android:id="@+id/btnSubmitNewExercise"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/spnUnit3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/button_radient"
+        android:textColor="#ffffff"
+        android:layout_marginTop="10dp"/>
     <LinearLayout
         android:id="@+id/linlaHeaderProgress"
         android:layout_width="fill_parent"

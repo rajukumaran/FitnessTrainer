@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,8 +18,18 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class ExerciseInputActivity extends AzureBaseActivity {
 
@@ -27,6 +38,7 @@ public class ExerciseInputActivity extends AzureBaseActivity {
     EditText txtUnit1,txtUnit2,txtUnit3;
     String Unit1,Unit2,Unit3;
     String ID, Name;
+    RecentActivityAdapter TA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +69,7 @@ public class ExerciseInputActivity extends AzureBaseActivity {
         acTextView.setAdapter(new SuggestionAdapter(this, acTextView.getText().toString()));
         acTextView.setOnItemClickListener(AutocompleteItemClickListner);
         acTextView.setHint("Type Exercise Name");
+        RecentExerciseActivities();
         //ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.select_dialog_item,strValues);
         //acTextView.setThreshold(1);
         //acTextView.setAdapter(adapter);
@@ -170,6 +183,54 @@ public class ExerciseInputActivity extends AzureBaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void RecentExerciseActivities(){
+
+        TA = new RecentActivityAdapter(this, R.layout.exercise_activity_layout);
+        ListView lstView = (ListView) findViewById(R.id.lstViewActivity);
+        lstView.setAdapter(TA);
+        List<Pair<String, String>> params = new ArrayList<Pair<String, String>>();
+        Pair<String, String> param = Pair.create("TraineeID","aksh");
+        params.add(param);
+
+        ListenableFuture<String> result = mClient.invokeApi("GetRecentActivity","GET", params , String.class );
+        Futures.addCallback(result, new FutureCallback<String>() {
+            @Override
+            public void onFailure(Throwable exc) {
+                Throwable exec1 = exc;
+                // createAndShowDialog((Exception) exc, "Error");
+            }
+
+            @Override
+            public void onSuccess(String result) {
+
+                try {
+
+                    JSONArray jarray = new JSONArray(result);
+
+                    for(int i=0; i< jarray.length();i++)
+                    {
+                        JSONObject js = jarray.getJSONObject(i);
+                        ExerciseActivity TAs = new ExerciseActivity();
+                        TAs.ExerciseName = js.getString("ExerciseName");
+                        TAs.Unit1Name = js.getString("Unit1Name");
+                        TAs.Unit1Value= js.getString("Unit1Value");
+                        TAs.Unit2Name = js.getString("Unit2Name");
+                        TAs.Unit2Value= js.getString("Unit2Value");
+                        TAs.Unit3Name = js.getString("Unit3Name");
+                        TAs.Unit3Value= js.getString("Unit3Value");
+                        TA.add(TAs);
+
+                    }
+                    //JSONObject jsonResponse = new JSONObject(result);
+
+                } catch (Exception er) {
+
+                }
+
+            }
+        });
     }
 
 }

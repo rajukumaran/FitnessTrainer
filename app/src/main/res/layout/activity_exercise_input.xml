@@ -20,45 +20,65 @@
         android:layout_toLeftOf="@+id/btnAddExercise"
         android:layout_toStartOf="@+id/btnAddExercise"
         android:textColor="#ffffff"
-        android:textColorHint="#ffffff">
+        android:textColorHint="#ffffff"
+        android:background="@drawable/edittext_rounded_corners"
+        android:layout_marginBottom="5dp"
+        android:textCursorDrawable="@drawable/color_cursor">
         <requestFocus />
     </AutoCompleteTextView>
-
-    <EditText
+    <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/autoComplete"
+        android:weightSum="1">
+    <EditText
+        android:layout_width="104dp"
         android:layout_height="wrap_content"
         android:id="@+id/txtUnit1"
         android:inputType="number"
-        android:layout_below="@+id/autoComplete"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="47dp"
         android:textColor="#ffffff"
-        android:textColorHint="#ffffff"/>
+        android:textColorHint="#ffffff"
+        android:layout_below="@+id/autoComplete"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/txtUnit2"
+        android:background="@drawable/edittext_rounded_corners"
+        android:layout_marginRight="5dp"
+        android:textCursorDrawable="@drawable/color_cursor"/>
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="104dp"
         android:layout_height="wrap_content"
         android:id="@+id/txtUnit2"
         android:editable="false"
         android:inputType="number"
-        android:layout_below="@+id/txtUnit1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:textColor="#ffffff"
-        android:textColorHint="#ffffff" />
+        android:textColorHint="#ffffff"
+        android:layout_alignTop="@+id/txtUnit1"
+        android:layout_alignBottom="@+id/txtUnit1"
+        android:layout_toLeftOf="@+id/txtUnit3"
+        android:background="@drawable/edittext_rounded_corners"
+        android:layout_marginRight="5dp"
+        android:textCursorDrawable="@drawable/color_cursor"/>
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="105dp"
         android:layout_height="wrap_content"
         android:id="@+id/txtUnit3"
         android:inputType="number"
-        android:layout_below="@+id/txtUnit2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/txtUnit2"
+        android:layout_alignBottom="@+id/txtUnit2"
+        android:layout_toRightOf="@+id/autoComplete"
+        android:layout_toEndOf="@+id/autoComplete"
         android:textColor="#ffffff"
-        android:textColorHint="#ffffff" />
-
+        android:textColorHint="#ffffff"
+        android:layout_weight="0.69"
+        android:background="@drawable/edittext_rounded_corners"
+        android:layout_marginRight="5dp"
+        android:textCursorDrawable="@drawable/color_cursor"/>
+</LinearLayout>
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
@@ -69,7 +89,10 @@
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@+id/autoComplete"
         android:background="@drawable/button_radient"
-        android:layout_alignTop="@+id/autoComplete" />
+        android:layout_alignTop="@+id/autoComplete"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="5dp"
+        />
 
 
     <Button
@@ -79,12 +102,13 @@
         android:text="  Enter  "
         android:id="@+id/btnExceriseSubmit"
         android:background="@drawable/button_radient"
-        android:layout_below="@+id/txtUnit3"
+        android:textColor="#ffffff"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="44dp"
-        android:layout_alignRight="@+id/txtUnit3"
-        android:layout_alignEnd="@+id/txtUnit3" />
+        android:layout_below="@+id/linearLayout1"
+        android:layout_alignRight="@+id/btnAddExercise"
+        android:layout_alignEnd="@+id/btnAddExercise"
+        android:layout_marginTop="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -100,5 +124,27 @@
         android:textStyle="bold"
         android:textSize="15sp"
         android:layout_above="@+id/btnAddExercise" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lstViewActivity"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textView2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recent Activity"
+        android:id="@+id/textView2"
+        android:textColor="#ffffff"
+        android:layout_alignRight="@+id/btnAddExercise"
+        android:layout_alignEnd="@+id/btnAddExercise"
+        android:layout_below="@+id/btnExceriseSubmit"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"/>
 
 </RelativeLayout>

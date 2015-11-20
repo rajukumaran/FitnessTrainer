@@ -16,14 +16,18 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"/>
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtFirstName"
         android:layout_below="@+id/txtUserName"
         android:layout_alignRight="@+id/txtUserName"
-        android:layout_alignEnd="@+id/txtUserName" />
+        android:layout_alignEnd="@+id/txtUserName"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"/>
 
 
     <EditText
@@ -32,7 +36,9 @@
         android:id="@+id/txtLastName"
         android:layout_below="@+id/txtFirstName"
         android:layout_alignRight="@+id/txtFirstName"
-        android:layout_alignEnd="@+id/txtFirstName" />
+        android:layout_alignEnd="@+id/txtFirstName"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"/>
 
     <EditText
         android:layout_width="fill_parent"
@@ -40,7 +46,9 @@
         android:id="@+id/txtPhone"
         android:layout_below="@+id/txtLastName"
         android:layout_alignRight="@+id/txtLastName"
-        android:layout_alignEnd="@+id/txtLastName" />
+        android:layout_alignEnd="@+id/txtLastName"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"/>
 
     <EditText
         android:layout_width="fill_parent"
@@ -48,7 +56,9 @@
         android:id="@+id/txtEmail"
         android:layout_below="@+id/txtPhone"
         android:layout_alignRight="@+id/txtPhone"
-        android:layout_alignEnd="@+id/txtPhone" />
+        android:layout_alignEnd="@+id/txtPhone"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"/>
 
 
 
@@ -57,11 +67,13 @@
         android:layout_height="wrap_content"
         android:text="Add Trainee"
         android:id="@+id/btnAddTrainee"
-        android:layout_below="@+id/txtEmail"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp"
         android:background="@drawable/button_radient"
         android:textColor="#ffffff"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

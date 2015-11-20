@@ -106,7 +106,8 @@ public class TrainerAssociationActivity extends AzureBaseActivity {
         btnAssociateUser.setOnClickListener(btnAssociateUser_Click);
         linlaHeaderProgress = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
         txtTraineeID = (EditText)findViewById(R.id.txtTraineeID);
-        TrainerGlobal.SetText(txtTraineeID,"Trainee ID");
+        txtTraineeID.setHint("Enter Trainee ID");
+        //TrainerGlobal.SetText(txtTraineeID,"Trainee ID");
         btnNewTrainee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
