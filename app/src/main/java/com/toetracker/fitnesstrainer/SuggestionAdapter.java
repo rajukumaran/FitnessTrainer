@@ -14,7 +14,7 @@ public class SuggestionAdapter extends ArrayAdapter<String> {
 
     protected static final String TAG = "SuggestionAdapter";
     private List<String> suggestions;
-    private List<ExerciseData> getSetSuggestion;
+    private List<ExcerciseData> getSetSuggestion;
     public SuggestionAdapter(Activity context, String nameFilter) {
         super(context, android.R.layout.simple_dropdown_item_1line);
         suggestions = new ArrayList<String>();

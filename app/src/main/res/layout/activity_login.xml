@@ -14,8 +14,11 @@
         android:layout_above="@+id/txtPassword"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_margin="5dp"
         android:textColor="#ffffff"
-        android:textColorHint="#ffffff"/>
+        android:textColorHint="#ffffff"
+        android:background="@drawable/edittext_rounded_corners"
+        android:textCursorDrawable="@drawable/color_cursor"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -26,8 +29,11 @@
         android:layout_above="@+id/btnSubmit"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_margin="5dp"
         android:textColor="#ffffff"
-        android:textColorHint="#ffffff"/>
+        android:textColorHint="#ffffff"
+        android:background="@drawable/edittext_rounded_corners"
+        android:textCursorDrawable="@drawable/color_cursor"/>
 
     <Button
         android:layout_width="wrap_content"

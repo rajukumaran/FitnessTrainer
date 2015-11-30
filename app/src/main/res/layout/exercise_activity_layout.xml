@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
@@ -9,14 +9,112 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/txtExercise"
-        android:layout_weight="0.04"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff"
 
-    <TextView
-        android:layout_width="395dp"
+        android:layout_toStartOf="@+id/imgEdit"
+        android:layout_alignBottom="@+id/imgEdit"
+        android:layout_alignTop="@+id/imgCancel"
+        android:layout_toLeftOf="@+id/imgEdit" />
+
+
+
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/imgDelete"
+        android:layout_gravity="right"
+        android:src="@drawable/delete_hs"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="#FF7A7A7A"
+        android:visibility="invisible"
+
+        />
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/imgEdit"
+        android:layout_gravity="right"
+        android:src="@drawable/edit_hs"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/imgDelete"
+        android:layout_toStartOf="@+id/imgDelete"
+        android:background="#FF7A7A7A"
+        android:visibility="invisible"/>
+
+    <EditText
+        android:layout_width="85dp"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/txtUnits"
-        android:layout_weight="0.04"
-        android:textColor="#ffffff"/>
-</LinearLayout>
+        android:id="@+id/txtEditUnit1"
+        android:textSize="12dp"
+        android:visibility="invisible"
+        android:layout_alignBottom="@+id/imgEdit"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:inputType="number"
+        android:layout_marginRight="5dp"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"
+        android:background="@drawable/edittext_rounded_corners"
+        android:textCursorDrawable="@drawable/color_cursor"/>
+
+    <EditText
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtEditUnit2"
+        android:visibility="invisible"
+        android:layout_alignTop="@+id/txtEditUnit1"
+        android:layout_toRightOf="@+id/txtEditUnit1"
+        android:layout_toEndOf="@+id/txtEditUnit1"
+        android:textSize="12dp"
+        android:inputType="number"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"
+        android:background="@drawable/edittext_rounded_corners"
+        android:layout_marginRight="5dp"
+        android:textCursorDrawable="@drawable/color_cursor"
+        />
+
+    <EditText
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtEditUnit3"
+        android:visibility="invisible"
+        android:textSize="12dp"
+        android:inputType="number"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"
+        android:background="@drawable/edittext_rounded_corners"
+        android:textCursorDrawable="@drawable/color_cursor"
+        android:layout_alignTop="@+id/txtEditUnit2"
+        android:layout_toRightOf="@+id/txtEditUnit2"
+        android:layout_toEndOf="@+id/txtEditUnit2" />
+
+
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/imgCancel"
+        android:layout_alignBottom="@+id/txtEditUnit3"
+        android:layout_toRightOf="@+id/imgUpdate"
+        android:layout_toEndOf="@+id/imgEdit"
+        android:src="@drawable/edit_undo_hs"
+        android:background="#FF7A7A7A"
+        android:visibility="invisible"
+
+        />
+
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/imgUpdate"
+        android:src="@drawable/save_hs"
+        android:background="#FF7A7A7A"
+        android:visibility="invisible"
+        android:layout_alignBottom="@+id/txtEditUnit3"
+        android:layout_toRightOf="@+id/txtExercise"
+        android:layout_toEndOf="@+id/txtExercise" />
+
+
+</RelativeLayout>

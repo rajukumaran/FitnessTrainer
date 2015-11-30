@@ -3,14 +3,14 @@ package com.toetracker.fitnesstrainer;
 /**
  * Created by rajmarappan on 10/25/15.
  */
-public class ExerciseData {
+public class ExcerciseData {
 
     String id,name,unit1,unit2,unit3;
-    public ExerciseData(String id, String name){
+    public ExcerciseData(String id, String name){
         this.setId(id);
         this.setName(name);
     }
-    public ExerciseData(String id, String name,String unit1,String unit2,String unit3){
+    public ExcerciseData(String id, String name, String unit1, String unit2, String unit3){
         this.setId(id);
         this.setName(name);
         this.setUnit1(unit1);

@@ -24,7 +24,7 @@
         android:name="android.support.multidex.MultiDexApplication"
         <activity
             android:name=".ExerciseInputActivity"
-            android:label="@string/title_activity_exercise_input" >
+            android:label="@string/title_activity_exercise_input"  android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".AddExercise" >
         </activity>

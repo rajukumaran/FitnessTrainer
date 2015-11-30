@@ -4,14 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
-import android.support.v7.app.AppCompatActivity;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,32 +21,35 @@ import android.widget.TextView;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
-import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
+import com.microsoft.windowsazure.mobileservices.MobileServiceException;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperations.val;
 
 public class ExerciseInputActivity extends AzureBaseActivity {
 
     Button btnExerciseSubmit,btnAddExercise;
-    EditText txtExerciseId;
-    EditText txtUnit1,txtUnit2,txtUnit3;
+    public EditText txtExerciseId;
+    public EditText txtUnit1,txtUnit2,txtUnit3;
     String Unit1,Unit2,Unit3;
     String ID, Name;
     RecentActivityAdapter TA;
+    MobileServiceTable<ExcerciseInput> mToDoTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_input);
         TextView txtView = (TextView)findViewById(R.id.txtVwTrainee);
-        txtView.setText(TrainerGlobal.TraineeName);
-       btnAddExercise = (Button)findViewById(R.id.btnAddExercise);
+        txtView.setText(TrainerGlobal.toCamelCase(TrainerGlobal.TraineeName));
+        btnAddExercise = (Button)findViewById(R.id.btnAddExercise);
         btnAddExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,32 +82,98 @@ public class ExerciseInputActivity extends AzureBaseActivity {
     View.OnClickListener btnExerciseSubmit_Click = new View.OnClickListener(){
         @Override
         public void onClick(View view) {
-            ExerciseInput er = new ExerciseInput();
+
+            String TraineeName= TrainerGlobal.TraineeName;
+            TraineeName = TraineeName.substring(TraineeName.indexOf('(')+1,TraineeName.indexOf(')'));
+            final ExcerciseInput er = new ExcerciseInput();
             er.ExerciseName= Name;
             er.ExerciseDescID= ID;
-            er.User=TrainerGlobal.TraineeName;
+            er.User=TraineeName;
             er.Unit1= txtUnit1.getText().toString();
             er.Unit2= txtUnit2.getText().toString();
             er.Unit3= txtUnit3.getText().toString();
             if(er.Unit3.equals(""))
                 er.Unit3="0";
 
-            mClient.invokeApi("EnterExerciseActivity", er , String.class, new ApiOperationCallback<String>() {
+            int i=10;
 
+            mToDoTable = mClient.getTable("ExcerciseInput",ExcerciseInput.class);
+            AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
                 @Override
-                public void onCompleted(String result,
-                                        Exception exception, ServiceFilterResponse response) {
-
-                    if (exception == null) {
-                        txtUnit1.setHint(Unit1);
-                        txtUnit2.setHint(Unit2);
-                        txtUnit3.setHint(Unit3);
+                protected Void doInBackground(Void... params) {
+                    try {
+                        final ExcerciseInput entity = addItemInTable(er);
+                        final ExerciseActivity eA = new ExerciseActivity();
+                        eA.ExerciseName= er.ExerciseName;
+                        eA.Id=er.Id;
+                        eA.Unit1Name = Unit1;
+                        eA.Unit1Value = er.Unit1;
+                        eA.Unit2Name = Unit2;
+                        eA.Unit2Value = er.Unit2;
+                        eA.Unit3Name = Unit3;
+                        eA.Unit3Value = er.Unit3;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                if(!entity.isComplete()){
+//                                    mAdapter.add(entity);
+//                                }
+                                TA.insert(eA, 0);
+                            }
+                        });
+                    } catch (final Exception e) {
+//                        createAndShowDialogFromTask(e, "Error");
                     }
+                    return null;
                 }
+            };
 
-            });
+            runAsyncTask(task);
+
+//            try {
+//                //List<ExcerciseInput> lr = mToDoTable.execute().get();
+//                mToDoTable.insert(er).get();
+//            }catch(ExecutionException err)
+//            {
+//                i=11;
+//            }catch(InterruptedException err)
+//            {
+//                i=12;
+////            }catch(MobileServiceException err)
+////            {
+////                i=13;
+//            }finally {
+//
+//                i =14;
+//            }
+
+//            mClient.invokeApi("EnterExerciseActivity", er , String.class, new ApiOperationCallback<String>() {
+//
+//                @Override
+//                public void onCompleted(String result,
+//                                        Exception exception, ServiceFilterResponse response) {
+//
+//                    if (exception == null) {
+//                        txtUnit1.setHint(Unit1);
+//                        txtUnit2.setHint(Unit2);
+//                        txtUnit3.setHint(Unit3);
+//                    }
+//                }
+//
+//            });
         }
     };
+
+    private AsyncTask<Void, Void, Void> runAsyncTask(AsyncTask<Void, Void, Void> task) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            return task.execute();
+        }
+    }public ExcerciseInput addItemInTable(ExcerciseInput item) throws ExecutionException, InterruptedException {
+        ExcerciseInput entity = mToDoTable.insert(item).get();
+        return entity;
+    }
 
     AdapterView.OnItemClickListener AutocompleteItemClickListner = new AdapterView.OnItemClickListener() {
         @Override
@@ -137,7 +206,7 @@ public class ExerciseInputActivity extends AzureBaseActivity {
                     txtUnit3.setEnabled(true);
                     txtUnit3.setHint( Unit3);
                 }
-            //ID= ((ExerciseData)((ListView) adapterView).getAdapter().getItem(i)).ExerciseID;
+            //ID= ((ExcerciseData)((ListView) adapterView).getAdapter().getItem(i)).ExerciseID;
         }
     };
 
@@ -173,6 +242,7 @@ public class ExerciseInputActivity extends AzureBaseActivity {
         }
         if (id == R.id.logout)
         {
+
             SharedPreferences prefs = getSharedPreferences(TrainerGlobal.SHAREDPREFFILE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString(TrainerGlobal.USERIDPREF, "");
@@ -187,13 +257,15 @@ public class ExerciseInputActivity extends AzureBaseActivity {
 
     private void RecentExerciseActivities(){
 
-        TA = new RecentActivityAdapter(this, R.layout.exercise_activity_layout);
+        TA = new RecentActivityAdapter(this, R.layout.exercise_activity_layout, this.mClient, this.mToDoTable);
         ListView lstView = (ListView) findViewById(R.id.lstViewActivity);
         lstView.setAdapter(TA);
+        String TraineeName= TrainerGlobal.TraineeName;
+        TraineeName = TraineeName.substring(TraineeName.indexOf('(')+1,TraineeName.indexOf(')'));
         List<Pair<String, String>> params = new ArrayList<Pair<String, String>>();
-        Pair<String, String> param = Pair.create("TraineeID","aksh");
+        Pair<String, String> param = Pair.create("TraineeID",TraineeName);
         params.add(param);
-
+        TA.clear();
         ListenableFuture<String> result = mClient.invokeApi("GetRecentActivity","GET", params , String.class );
         Futures.addCallback(result, new FutureCallback<String>() {
             @Override
@@ -220,6 +292,8 @@ public class ExerciseInputActivity extends AzureBaseActivity {
                         TAs.Unit2Value= js.getString("Unit2Value");
                         TAs.Unit3Name = js.getString("Unit3Name");
                         TAs.Unit3Value= js.getString("Unit3Value");
+                        TAs.ExerciseDescID= js.getString("ExerciseDescID");
+                        TAs.Id=js.getString("Id");
                         TA.add(TAs);
 
                     }

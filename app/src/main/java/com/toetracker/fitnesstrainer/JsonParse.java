@@ -19,17 +19,17 @@ public class JsonParse {
         this.current_latitude=current_latitude;
         this.current_longitude=current_longitude;
     }
-    public List<ExerciseData> getParseJsonWCF(String sName)
+    public List<ExcerciseData> getParseJsonWCF(String sName)
     {
-        List<ExerciseData> ListData = new ArrayList<ExerciseData>();
+        List<ExcerciseData> ListData = new ArrayList<ExcerciseData>();
         try {
 //            String temp=sName.replace(" ", "%20");
             //URL js = new URL("http://webheavens.com/suggestion.php?name="+temp);
             //URLConnection jc = js.openConnection();
-            List<ExerciseData> lstExercise= TrainerGlobal.getExercises();
+            List<ExcerciseData> lstExercise= TrainerGlobal.getExercises();
             if(lstExercise==null)
             {
-                lstExercise = new ArrayList<ExerciseData>();
+                lstExercise = new ArrayList<ExcerciseData>();
                 AssetManager mgr = TrainerGlobal.getAssetManager();
                 InputStream file = mgr.open("Exercise.json");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(file));
@@ -38,10 +38,10 @@ public class JsonParse {
                 JSONArray jsonArray = jsonResponse.getJSONArray("results");
                 for(int i = 0; i < jsonArray.length(); i++){
                     JSONObject r = jsonArray.getJSONObject(i);
-                    lstExercise.add(new ExerciseData(r.getString("ExerciseID"),r.getString("ExerciseName"),r.getString("Unit1"),r.getString("Unit2"),r.getString("Unit3")));
+                    lstExercise.add(new ExcerciseData(r.getString("ExerciseID"),r.getString("ExerciseName"),r.getString("Unit1"),r.getString("Unit2"),r.getString("Unit3")));
                 }
             }
-            for(ExerciseData exData:lstExercise){
+            for(ExcerciseData exData:lstExercise){
                 if(exData.getName().toUpperCase().contains(sName.toUpperCase()))
                      ListData.add(exData);
             }

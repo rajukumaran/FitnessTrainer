@@ -11,4 +11,6 @@ public class ExerciseActivity {
     public String Unit1Value;
     public String Unit2Value;
     public String Unit3Value;
+    public String Id;
+    public String ExerciseDescID;
 }

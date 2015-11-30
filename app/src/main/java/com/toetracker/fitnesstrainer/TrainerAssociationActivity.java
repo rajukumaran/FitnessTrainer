@@ -167,7 +167,7 @@ public class TrainerAssociationActivity extends AzureBaseActivity {
                                    String FirstName = js.getString("FirstName");
                                    String LastName = js.getString("LastName");
                                    String UserName = js.getString("Username");
-                                   String FullName = LastName +", " + FirstName + "(" + UserName +")";
+                                   String FullName = FirstName +" " + LastName + "(" + UserName +")";
                                    TrainerAssociation TAs = new TrainerAssociation();
                                    TAs.TraineeID=FullName;
                                    TA.add(TAs);
