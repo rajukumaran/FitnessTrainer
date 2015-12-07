@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Pair;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +43,7 @@ public class ExerciseInputActivity extends AzureBaseActivity {
     String ID, Name;
     RecentActivityAdapter TA;
     MobileServiceTable<ExcerciseInput> mToDoTable;
+    AutoCompleteTextView acTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +70,18 @@ public class ExerciseInputActivity extends AzureBaseActivity {
         AssetManager am = getAssets();
         TrainerGlobal.setAssetManager(am);
         //AssetManager manager = getAssets();
-        AutoCompleteTextView acTextView = (AutoCompleteTextView) findViewById(R.id.autoComplete);
+        acTextView = (AutoCompleteTextView) findViewById(R.id.autoComplete);
+
         acTextView.setAdapter(new SuggestionAdapter(this, acTextView.getText().toString()));
         acTextView.setOnItemClickListener(AutocompleteItemClickListner);
         acTextView.setHint("Type Exercise Name");
+        acTextView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                btnExerciseSubmit.setEnabled(false);
+                return false;
+            }
+        });
         RecentExerciseActivities();
         //ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.select_dialog_item,strValues);
         //acTextView.setThreshold(1);
@@ -83,7 +93,26 @@ public class ExerciseInputActivity extends AzureBaseActivity {
         @Override
         public void onClick(View view) {
 
+            List<ExcerciseData> lstEd = TrainerGlobal.getExercises();
+            if(TrainerGlobal.GetSelectedExercise==null)
+            {
+                acTextView.setError("The exercise name is invalid");
+                return;
+            }
+            for(ExcerciseData ed : lstEd)
+            {
+                if(ed.getId().equals(TrainerGlobal.GetSelectedExercise.getId()))
+                {
+                    if(!ed.getName().equals(acTextView.getText().toString()))
+                    {
+                        acTextView.setError("The exercise name is invalid");
+                        return;
+                    }
+                    break;
+                }
+            }
             String TraineeName= TrainerGlobal.TraineeName;
+
             TraineeName = TraineeName.substring(TraineeName.indexOf('(')+1,TraineeName.indexOf(')'));
             final ExcerciseInput er = new ExcerciseInput();
             er.ExerciseName= Name;
@@ -96,6 +125,21 @@ public class ExerciseInputActivity extends AzureBaseActivity {
                 er.Unit3="0";
 
             int i=10;
+            if(er.Unit1.trim().equals("") && !Unit1.equals(""))
+            {
+                txtUnit1.setError(Unit1 + " cannot be empty");
+                return;
+            }
+            if(er.Unit2.trim().equals("") && !Unit2.equals(""))
+            {
+                txtUnit2.setError(Unit2 + " cannot be empty");
+                return;
+            }
+            if(txtUnit3.getText().toString().trim().equals("") && !Unit3.equals(""))
+            {
+                txtUnit3.setError(Unit3 + " cannot be empty");
+                return;
+            }
 
             mToDoTable = mClient.getTable("ExcerciseInput",ExcerciseInput.class);
             AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
@@ -122,7 +166,13 @@ public class ExerciseInputActivity extends AzureBaseActivity {
                             }
                         });
                     } catch (final Exception e) {
-//                        createAndShowDialogFromTask(e, "Error");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                acTextView.setError(e.getMessage().toString());
+                            }
+                        });
+
                     }
                     return null;
                 }
@@ -179,6 +229,8 @@ public class ExerciseInputActivity extends AzureBaseActivity {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             adapterView.getAdapter().getItem(i);
+            btnExerciseSubmit.setEnabled(true);
+
             ID=TrainerGlobal.GetSelectedExercise.getId();
             Name= TrainerGlobal.GetSelectedExercise.getName();
              Unit1 = TrainerGlobal.GetSelectedExercise.getUnit1();

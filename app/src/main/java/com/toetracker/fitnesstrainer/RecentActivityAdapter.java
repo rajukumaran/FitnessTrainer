@@ -1,7 +1,9 @@
 package com.toetracker.fitnesstrainer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -117,7 +119,7 @@ public class RecentActivityAdapter extends ArrayAdapter<ExerciseActivity> {
                 txtExercise.setVisibility(View.VISIBLE);
                 imgEdit.setVisibility(View.INVISIBLE);
                 imgDelete.setVisibility(View.INVISIBLE);
-                remove(currentItem);
+
                 String TraineeName= TrainerGlobal.TraineeName;
                 TraineeName = TraineeName.substring(TraineeName.indexOf('(')+1,TraineeName.indexOf(')'));
                 final ExcerciseInput eI = new ExcerciseInput();
@@ -128,23 +130,39 @@ public class RecentActivityAdapter extends ArrayAdapter<ExerciseActivity> {
                 eI.Unit2=currentItem.Unit2Value;
                 eI.Unit3=currentItem.Unit3Value;
                 eI.ExerciseName= currentItem.ExerciseName;
-                AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
-                    @Override
-                    protected Void doInBackground(Void... params) {
-                        try {
+                new AlertDialog.Builder(mContext)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Delete Exercise")
+                        .setMessage("Are you sure to delete this Activity?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
-                            DeleteItem(eI);
-                        } catch (final Exception e) {
-                            int i=10;
-                            i=11;
-                            // createAndShowDialogFromTask(e, "Error");
-                        }
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                remove(currentItem);
+                                AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
+                                    @Override
+                                    protected Void doInBackground(Void... params) {
+                                        try {
 
-                        return null;
-                    }
-                };
+                                            DeleteItem(eI);
 
-                runAsyncTask(task);
+                                        } catch (final Exception e) {
+                                            int i=10;
+                                            i=11;
+                                            // createAndShowDialogFromTask(e, "Error");
+                                        }
+
+                                        return null;
+                                    }
+                                };
+
+                                runAsyncTask(task);
+                            }
+
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+
 
             }
         });

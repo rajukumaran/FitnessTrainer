@@ -19,6 +19,9 @@
         android:layout_alignParentEnd="true"
         android:textColor="#ffffff"
         android:textColorHint="#ffffff"
+        android:background="@drawable/edittext_rounded_corners"
+        android:textCursorDrawable="@drawable/color_cursor"
+        android:inputType="textCapSentences"
         />
 
     <Spinner
@@ -53,8 +56,22 @@
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/spnUnit1"
+        android:id="@+id/spnSecondaryMuscle"
         android:layout_below="@+id/spnMuscle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="#ffffff"
+        android:background="@drawable/cell_shape"
+        android:popupBackground="#777777"
+        android:layout_marginTop="10dp"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/spnUnit1"
+        android:layout_below="@+id/spnSecondaryMuscle"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
@@ -118,4 +135,27 @@
             android:layout_height="wrap_content" >
         </ProgressBar>
     </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/btnClearPreference"
+        android:layout_below="@+id/textView3"
+        android:layout_alignRight="@+id/textView3"
+        android:layout_alignEnd="@+id/textView3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/textView3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnSubmitNewExercise"
+        android:layout_alignRight="@+id/btnSubmitNewExercise"
+        android:layout_alignEnd="@+id/btnSubmitNewExercise" />
+
+
 </RelativeLayout>

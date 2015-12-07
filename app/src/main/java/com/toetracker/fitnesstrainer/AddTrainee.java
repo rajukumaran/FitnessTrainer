@@ -46,6 +46,7 @@ public class AddTrainee extends AzureBaseActivity {
     View.OnClickListener btnAddTrainee_Click = new View.OnClickListener(){
         @Override
         public void onClick(View view) {
+
             tr = new Trainee();
             tr.username=txtUserName.getText().toString();
             tr.Address="";
@@ -55,6 +56,32 @@ public class AddTrainee extends AzureBaseActivity {
             tr.Email=txtEmail.getText().toString();
             tr.Trainer=false;
             tr.password="Trainee123";
+
+            if(tr.username.trim().equals(""))
+            {
+                txtUserName.setError("User Name cannot be empty");
+                return;
+            }
+            if(tr.FirstName.trim().equals(""))
+            {
+                txtFirstName.setError("First Name Cannot be empty");
+                return;
+            }
+            if(tr.LastName.trim().equals(""))
+            {
+                txtLastName.setError("Last Name Cannot be empty");
+                return;
+            }
+            if(tr.Email.trim().equals(""))
+            {
+                txtEmail.setError("Email Cannot be empty");
+                return;
+            }
+            if(tr.Phone.trim().equals(""))
+            {
+                txtPhone.setError("Phone Cannot be empty");
+                return;
+            }
             mClient.invokeApi("CustomRegistration", tr, String.class, new ApiOperationCallback<String>() {
 
                 @Override
@@ -74,6 +101,13 @@ public class AddTrainee extends AzureBaseActivity {
                                 try {
 
                                     final TrainerAssociation entity = mToDoTable.insert(item).get();
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Intent loggedInIntent = new Intent(getApplicationContext(), TrainerAssociationActivity.class);
+                                            startActivity(loggedInIntent);
+                                        }
+                                    });
 
                                 } catch (final Exception e) {
 
@@ -84,9 +118,10 @@ public class AddTrainee extends AzureBaseActivity {
 
                         TrainerGlobal.runAsyncTask(task);
 
-                           Intent loggedInIntent = new Intent(getApplicationContext(), TrainerAssociationActivity.class);
-                            startActivity(loggedInIntent);
 
+                    }else
+                    {
+                        txtUserName.setError(exception.getMessage().substring(1,exception.getMessage().length()-1));
                     }
                 }
             });

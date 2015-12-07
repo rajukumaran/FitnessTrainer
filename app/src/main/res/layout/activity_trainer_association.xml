@@ -15,7 +15,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textColor="#ffffff"
-        android:textColorHint="#ffffff"/>
+        android:textColorHint="#ffffff"
+        android:layout_toLeftOf="@+id/btnAssociateUser"
+        android:layout_toStartOf="@+id/btnAssociateUser"
+        android:background="@drawable/edittext_rounded_corners"
+        android:textCursorDrawable="@drawable/color_cursor"
+        android:layout_marginRight="5dp"/>
 
     <ListView
         android:layout_width="match_parent"

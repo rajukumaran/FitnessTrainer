@@ -15,9 +15,11 @@ public class SuggestionAdapter extends ArrayAdapter<String> {
     protected static final String TAG = "SuggestionAdapter";
     private List<String> suggestions;
     private List<ExcerciseData> getSetSuggestion;
+    Activity mContext;
     public SuggestionAdapter(Activity context, String nameFilter) {
         super(context, android.R.layout.simple_dropdown_item_1line);
         suggestions = new ArrayList<String>();
+        mContext=context;
     }
 
     @Override
@@ -41,7 +43,7 @@ public class SuggestionAdapter extends ArrayAdapter<String> {
                 if (constraint != null) {
                     // A class that queries a web API, parses the data and
                     // returns an ArrayList<GoEuroGetSet>
-                    getSetSuggestion =jp.getParseJsonWCF(constraint.toString());
+                    getSetSuggestion =jp.getParseJsonWCF(constraint.toString(),mContext);
                     suggestions.clear();
                     for (int i=0;i<getSetSuggestion.size();i++) {
                         suggestions.add(getSetSuggestion.get(i).getName());

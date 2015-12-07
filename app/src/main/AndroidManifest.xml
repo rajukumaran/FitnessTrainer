@@ -24,11 +24,11 @@
         android:name="android.support.multidex.MultiDexApplication"
         <activity
             android:name=".ExerciseInputActivity"
-            android:label="@string/title_activity_exercise_input"  android:windowSoftInputMode="adjustPan">
+            android:label="Exercise Input"  android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name=".AddExercise" >
+        <activity android:name=".AddExercise" android:label="Add New Exercise" >
         </activity>
-        <activity android:name=".AddTrainee" >
+        <activity android:name=".AddTrainee" android:label="Add New Trainee">
         </activity>
     </application>
 

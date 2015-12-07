@@ -88,6 +88,11 @@ public class Login extends AzureBaseActivity {
         LoginRequest req = new LoginRequest();
         req.username= txtEmail.getText().toString();
         req.password= txtPassword.getText().toString();
+        if(req.username.equals(""))
+            txtEmail.setError("User Name cannot be empty");
+        if(req.password.equals(""))
+            txtPassword.setError("Password cannot be empty");
+
         // New login using the provider and update the token cache.
         mClient.invokeApi("CustomLogin", req, JsonObject.class, new ApiOperationCallback<JsonObject>() {
 
@@ -96,6 +101,7 @@ public class Login extends AzureBaseActivity {
                                     Exception exception, ServiceFilterResponse response) {
 
                 if (exception == null) {
+
                     String AuthString = result.getAsJsonPrimitive("mobileServiceAuthenticationToken").getAsString();
                     String UserId = result.getAsJsonPrimitive("userId").getAsString();//result.get("userId").toString();
                     String UserType = result.getAsJsonPrimitive("userType").getAsString();;
@@ -118,6 +124,13 @@ public class Login extends AzureBaseActivity {
                          Intent loggedInIntent = new Intent(getApplicationContext(), ExerciseInputActivity.class);
                          startActivity(loggedInIntent);
                      }
+                }else
+                {
+                    if(result == null)
+                    {
+                        txtPassword.setError(exception.getMessage().substring(1,exception.getMessage().length()-1));
+                        return;
+                    }
                 }
             }
         });

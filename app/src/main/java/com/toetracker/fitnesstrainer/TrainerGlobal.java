@@ -24,6 +24,7 @@ public class TrainerGlobal {
     public static final String SHAREDPREFFILE = "temp";
     public static final String USERIDPREF = "uid";
     public static final String TOKENPREF = "tkn";
+    public static final String EXCERCISELIST="exercise_list";
     public static AssetManager manager;
     private static MobileServiceClient mClient;
 
